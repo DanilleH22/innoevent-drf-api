@@ -1,13 +1,10 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import Profile
+from .serializers import ProfileSerializer
 
-
-@api_view()
-def root_route(request):
-    return Response({
-        "message": "Welcome to my drf API!"
-    })
+class ProfileList(APIView):
+    def get(self, request):
+        profiles = Profile.objects.all()
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data)
