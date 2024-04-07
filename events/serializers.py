@@ -3,13 +3,15 @@ from events.models import Events
 
 
 class EventSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField()
+    owner = serializers.ReadOnlyField(source='profile')
     is_owner = serializers.SerializerMethodField()
-    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    profile_id = serializers.ReadOnlyField(source='profile.id')
 
+    
     def get_is_owner(self, obj):
         request = self.context['request']
-        return request.user == obj.owner
+        return request.user.profile == obj.owner
+
 
     class Meta:
         model = Events
