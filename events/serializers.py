@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from events.models import Events
+from events.models import Events, SignUp
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -19,3 +19,12 @@ class EventSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'event_name', 'date', 'description', 'image'
         ]
+
+
+class SignUpSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=100)
+    email_address = serializers.EmailField()
+    
+    class Meta:
+        model = SignUp
+        fields = ['id', 'event', 'name', 'email_address']
