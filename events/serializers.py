@@ -3,7 +3,7 @@ from events.models import Events, SignUp
 
 
 class EventSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='profile')
+    owner = serializers.ReadOnlyField(source='owner.profile')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='profile.id')
 
@@ -22,9 +22,14 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=100)
-    email_address = serializers.EmailField()
-    
+    name = serializers.CharField(write_only=True, required=False)  # Accept name input
+    email = serializers.EmailField(write_only=True, required=False)  # Accept email input
+
     class Meta:
         model = SignUp
-        fields = ['id', 'event', 'name', 'email_address']
+        fields = ['event', 'name', 'email']
+
+    # def create(self, validated_data):
+    #     name = validated_data.pop('name', None)
+    #     email = validated_data.pop('email', None)
+    #     return super().create(validated_data)
