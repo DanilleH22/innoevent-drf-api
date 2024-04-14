@@ -14,20 +14,28 @@ from rest_framework import generics
 from rest_framework import generics, permissions, filters
 
 
-class EventList(APIView):
-    permission_classes = [AllowAny]
+class EventList(generics.ListCreateAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Events.objects.all()
 
-    def get(self, request):
-        events = Events.objects.all()
-        serializer = EventSerializer(events, many=True, context={'request': request})
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        profile = self.request.user.profile
+        serializer.save(owner=profile)
 
-    def post(self, request):
-        serializer = EventSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save(owner=request.user.profile)  
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # permission_classes = [AllowAny]
+
+    # def get(self, request):
+    #     events = Events.objects.all()
+    #     serializer = EventSerializer(events, many=True, context={'request': request})
+    #     return Response(serializer.data)
+
+    # def post(self, request):
+    #     serializer = EventSerializer(data=request.data, context={'request': request})
+    #     if serializer.is_valid():
+    #         serializer.save(owner=request.user.profile)  
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
