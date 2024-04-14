@@ -16,3 +16,5 @@ class Events(models.Model):
 class SignUp(models.Model):
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     attendee = models.ForeignKey(Profile, related_name='signed_up_events', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
