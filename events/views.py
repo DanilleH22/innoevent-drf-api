@@ -85,9 +85,12 @@ class EventSignUp(APIView):
         serializer = EventSerializer(event, context={'request': request})
         return Response(serializer.data)
 
+    def perform_create(self, serializer):
+        serializer.save()
+
     def post(self, request, pk):
         event = get_object_or_404(Events, pk=pk)
-        data = {'event': event.pk, 'attendee': request.user.profile.pk} 
+        data = {'event': event.pk, 'attendee': request.user.profile.pk}
         serializer = SignUpSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
