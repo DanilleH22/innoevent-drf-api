@@ -22,9 +22,6 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(write_only=True, required=False) 
-    email = serializers.EmailField(write_only=True, required=False)  
-
     class Meta:
         model = SignUp
         fields = ['event', 'name', 'email']
