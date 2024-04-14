@@ -9,10 +9,13 @@ from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework import generics
+from rest_framework import generics, permissions, filters
 
 
 class EventList(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         events = Events.objects.all()
@@ -27,35 +30,42 @@ class EventList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class EventDetail(APIView):
-    permission_classes = [IsOwnerOrReadOnly]
-    serializer = EventSerializer
+class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Events.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = [IsAdminUser]
 
-    def get_object(self, pk):
-        try:
-            event = Events.objects.get(pk=pk)
-            self.check_object_permissions(self.request, event)
-            return event
-        except Events.DoesNotExist:
-            raise Http404
+    def get_object(self):
+        obj = super().get_object()
+        self.check_object_permissions(self.request, obj)
+        return obj
 
-    def get(self, request, pk):
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, context={'request': request})
-        return Response(serializer.data)
 
-    def put(self, request, pk):
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()  
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
-    def delete(self, request, pk):
-        event = self.get_object(pk)
-        event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # def get_object(self, pk):
+    #     event = get_object_or_404(Events, pk=pk)
+    #     self.check_object_permissions(self.request, event)
+    #     return event
+
+    # def get(self, request, pk):
+    #     event = self.get_object(pk)
+    #     serializer = EventSerializer(event, context={'request': request})
+    #     return Response(serializer.data)
+
+    # def put(self, request, pk):
+    #     event = self.get_object(pk)
+    #     serializer = EventSerializer(event, data=request.data, context={'request': request})
+    #     if serializer.is_valid():
+    #         serializer.save()  
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def delete(self, request, pk):
+    #     event = self.get_object(pk)
+    #     event.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class EventSignUp(APIView):
@@ -68,9 +78,8 @@ class EventSignUp(APIView):
         return Response(serializer.data)
 
     def post(self, request, pk):
-        # To handle sign-up
         event = get_object_or_404(Events, pk=pk)
-        data = {'event': event.pk, 'attendee': request.user.profile.pk}  # Assuming attendee is a Profile linked to the user
+        data = {'event': event.pk, 'attendee': request.user.profile.pk} 
         serializer = SignUpSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
