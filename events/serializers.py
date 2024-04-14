@@ -5,7 +5,7 @@ from events.models import Events, SignUp
 class EventSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.profile')
     is_owner = serializers.SerializerMethodField()
-    profile_id = serializers.ReadOnlyField(source='profile.id')
+    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
 
     
     def get_is_owner(self, obj):
@@ -22,14 +22,9 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(write_only=True, required=False)  # Accept name input
-    email = serializers.EmailField(write_only=True, required=False)  # Accept email input
+    name = serializers.CharField(write_only=True, required=False) 
+    email = serializers.EmailField(write_only=True, required=False)  
 
     class Meta:
         model = SignUp
         fields = ['event', 'name', 'email']
-
-    # def create(self, validated_data):
-    #     name = validated_data.pop('name', None)
-    #     email = validated_data.pop('email', None)
-    #     return super().create(validated_data)
