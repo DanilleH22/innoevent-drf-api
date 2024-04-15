@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from events.models import Events, SignUp
+from profiles.models import Profile
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -24,4 +25,9 @@ class EventSerializer(serializers.ModelSerializer):
 class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = SignUp
-        fields = ['event', 'name', 'email']
+        fields = ['event', 'attendee', 'name', 'email']
+        read_only_fields = ['attendee']  
+
+    def create(self, validated_data):
+        validated_data['attendee'] = self.context['request'].user.profile
+        return super().create(validated_data)
