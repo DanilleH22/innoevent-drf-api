@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Profile
@@ -12,12 +12,16 @@ from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_list_or_404, get_object_or_404
 
 
-class ProfileDetail(APIView):
+class ProfileDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+
+    def get_object(self, pk):
+        return get_object_or_404(Profile, pk=pk)
 
     def get(self, request, pk):
-        profile = get_object_or_404(Profile, pk=pk)
-        self.check_object_permissions(self.request, profile)
+        profile = self.get_object(pk=pk)
+        self.check_object_permissions(request, profile)
         profile_serializer = ProfileSerializer(profile, context={'request': request})
 
         if request.user.profile.id == pk:
@@ -45,4 +49,5 @@ class ProfileDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
