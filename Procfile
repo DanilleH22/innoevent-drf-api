@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn innoevent.wsgi:application
+web: gunicorn innoevent.wsgi
