@@ -17,6 +17,7 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
 
     def get_object(self, pk):
+        pk = self.kwargs.get('pk')
         return get_object_or_404(Profile, pk=pk)
 
     def get(self, request, pk):
