@@ -28,4 +28,5 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('events.urls')),
     path('', include('contact.urls')),
+    path('', include('signup.urls')),
 ]
