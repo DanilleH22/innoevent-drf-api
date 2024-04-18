@@ -1,14 +1,13 @@
 from rest_framework import serializers
-from events.models import Events, SignUp
+from events.models import Events
 from profiles.models import Profile
+from profiles.serializers import ProfileSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.profile')
     is_owner = serializers.SerializerMethodField()
-    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    owner_profile = ProfileSerializer(source='owner.profile', read_only=True)
 
-    
     def get_is_owner(self, obj):
         request = self.context['request']
         return request.user.profile == obj.owner
@@ -17,17 +16,6 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Events
         fields = [
-            'id', 'owner', 'is_owner', 'profile_id',
-            'event_name', 'date', 'description', 'image'
+            'id', 'is_owner', 'event_name', 'date', 
+            'description', 'image', 'owner_profile'
         ]
-
-
-class SignUpSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SignUp
-        fields = ['event', 'attendee', 'name', 'email']
-        read_only_fields = ['attendee']  
-
-    def create(self, validated_data):
-        validated_data['attendee'] = self.context['request'].user.profile
-        return super().create(validated_data)
