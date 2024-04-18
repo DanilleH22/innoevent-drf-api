@@ -96,6 +96,7 @@ INSTALLED_APPS = [
     'profiles',
     'events',
     'contact',
+    'signup',
 ]
 
 SITE_ID = 1
