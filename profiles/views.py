@@ -1,4 +1,4 @@
-# from innoevent.permissions import IsOwnerOrReadOnly
+from innoevent.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Profile
@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_list_or_404, get_object_or_404
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     serializer_class = ProfileSerializer
 
     def get_object(self):
