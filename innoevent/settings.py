@@ -116,7 +116,7 @@ AUTHENTICATION_BACKENDS = [
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN')
+         os.environ.get('CLIENT_ORIGIN', 'https://danilleh22-innovevent-iytf49xaeyl.ws-eu110.gitpod.io/')
      ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
