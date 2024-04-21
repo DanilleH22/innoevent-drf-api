@@ -18,7 +18,7 @@ class EventList(generics.ListCreateAPIView):
     queryset = Events.objects.all().order_by('date')
 
 
-class EventCreate(generics.CreateAPIView):
+class EventCreate(generics.ListCreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
