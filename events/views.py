@@ -20,8 +20,8 @@ class EventList(generics.ListCreateAPIView):
 
 class EventCreate(generics.ListCreateAPIView):
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated]
-    queryset = Events.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Events.objects.all().order_by('date')
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
