@@ -21,7 +21,6 @@ class EventList(generics.ListCreateAPIView):
 class EventCreate(generics.ListCreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
     queryset = Events.objects.all()
     
     def perform_create(self, serializer):
