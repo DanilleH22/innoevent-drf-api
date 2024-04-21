@@ -22,6 +22,7 @@ class EventCreate(generics.CreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
+    queryset = Events.objects.all()
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
