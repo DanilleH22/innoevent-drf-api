@@ -9,13 +9,15 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework.permissions import IsAdminUser
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import filters
 
 
 class EventList(generics.ListCreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Events.objects.all().order_by('date')
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['owner__username', 'title']
 
 
 class EventCreate(generics.ListCreateAPIView):
