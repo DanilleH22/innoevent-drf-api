@@ -17,7 +17,7 @@ class EventList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Events.objects.all().order_by('date')
     filter_backends = [filters.SearchFilter]
-    search_fields = ['owner__username', 'title']
+    search_fields = ['owner__username', 'event_name']
 
 
 class EventCreate(generics.ListCreateAPIView):
