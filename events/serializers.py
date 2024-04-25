@@ -10,7 +10,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     def get_is_owner(self, obj):
         request = self.context['request']
-        return request.user.profile == obj.owner
+        return obj.owner == request.user
 
 
     class Meta:
