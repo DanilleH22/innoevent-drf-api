@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from .models import Events
 from .serializers import EventSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from innoevent.permissions import IsOwnerOrReadOnly
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAdminUser
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
@@ -13,6 +13,10 @@ from rest_framework import filters
 
 
 class EventList(generics.ListCreateAPIView):
+    """
+    List all events
+    Filter events so they can be searched
+    """
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Events.objects.all().order_by('date')
@@ -21,6 +25,9 @@ class EventList(generics.ListCreateAPIView):
 
 
 class EventCreate(generics.ListCreateAPIView):
+    """
+    Create an event 
+    """
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Events.objects.all().order_by('date')
@@ -29,6 +36,11 @@ class EventCreate(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get event details
+    Update event
+    Delete event
+    """
     queryset = Events.objects.all().order_by('date')
     serializer_class = EventSerializer
     permission_classes = [IsOwnerOrReadOnly]

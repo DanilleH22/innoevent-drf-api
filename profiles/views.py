@@ -4,9 +4,15 @@ from rest_framework.response import Response
 from .models import Profile
 from .serializers import ProfileSerializer
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404
 
 class ProfileDetail(generics.RetrieveUpdateAPIView):
+    """
+    Retrieve user profile details
+    Update profile biography
+    Retrieve events created buy the user
+    Retrieve events user has signed up to
+    """
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = ProfileSerializer
 

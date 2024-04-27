@@ -1,24 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
 from .models import Events
 from signup.models import SignUp
 from profiles.models import Profile
 from events.serializers import EventSerializer
 from .serializers import SignUpSerializer
-from innoevent.permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated 
-from django_filters.rest_framework import DjangoFilterBackend
-from django.http import Http404
-from django.shortcuts import get_list_or_404, get_object_or_404
-from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework import generics
-from rest_framework import generics, permissions, filters
-
-# Create your views here.
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, filters, status
 
 
 class EventSignUp(APIView):
+    """
+    USer can sign up to event
+    """
     serializer_class = SignUpSerializer
     permission_classes = [IsAuthenticated]
 
