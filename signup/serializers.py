@@ -5,7 +5,7 @@ from profiles.serializers import ProfileSerializer
 from django.contrib.auth.models import User
 
 class UserRelatedProfileSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(source='userprofile', read_only=True)  # Assuming `userprofile` is the related name for the OneToOne field from User to Profile
+    profile = ProfileSerializer(source='userprofile', read_only=True) 
 
     class Meta:
         model = User

@@ -43,13 +43,3 @@ class EventSignUp(APIView):
             return Response({"message": "You have successfully signed up for the event.", "data": serializer.data}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # def post(self, request, pk):
-    #     event = get_object_or_404(Events, pk=pk)
-    #     if SignUp.objects.filter(event=event, attendee=request.user.profile).exists():
-    #         return Response({"error": "You have already signed up for the event."}, status=status.HTTP_409_CONFLICT)
-
-    #     serializer = self.get_serializer(data=request.data, context={'request': request})
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save(event=event, attendee=request.user.profile)
-    #     return Response({"message": "You have successfully signed up for the event.", "data": serializer.data}, status=status.HTTP_201_CREATED)
