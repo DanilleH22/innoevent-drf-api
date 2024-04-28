@@ -30,13 +30,11 @@ The live link for "Innovevent" can be found [HERE](https://innoevent-7b1d2e7d15e
 I have included links to the [GitHub Issues](https://github.com/DanilleH22/innoevent-drf-api/issues) for this project, as well as the [KANBAN board](https://github.com/users/DanilleH22/projects/8/views/1).
 
 ## Database:
-![SQL Database model](/static/images-readme/readme-models.png)
+![SQL Database model](/static/database.png)
 
 ## Testing:
 ### Validator Testing: 
 All files passed through [PEP8](http://pep8online.com/) without error.
-
-![PEP8](/static/images-readme/readme-pep8.png)
 
 ### Manual Testing:
 1. Manually verified each url path created works & opens without error.
