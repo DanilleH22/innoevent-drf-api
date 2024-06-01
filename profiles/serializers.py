@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 from signup.models import SignUp
-
+from events.serializers import EventSerializer
 
 class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -13,7 +13,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
     
     def get_signed_up(self, obj):
-        from events.serializers import EventSerializer
         signups = SignUp.objects.filter(attendee=obj.owner)
         events = [signup.event for signup in signups]
         return EventSerializer(events, many=True, context=self.context).data
