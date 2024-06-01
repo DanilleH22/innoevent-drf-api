@@ -2,7 +2,9 @@ from innoevent.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Profile
+from signup.models import SignUp
 from .serializers import ProfileSerializer
+from events.serializers import EventSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
@@ -10,7 +12,7 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
     Retrieve user profile details
     Update profile biography
-    Retrieve events created buy the user
+    Retrieve events created by the user
     Retrieve events user has signed up to
     """
     permission_classes = [IsOwnerOrReadOnly]
@@ -24,7 +26,16 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
         profile = self.get_object()
         self.check_object_permissions(request, profile)
         serializer = ProfileSerializer(profile, context={'request': request})
-        return Response(serializer.data)
+
+        signed_up_events = SignUp.objects.filter(attendee=profile.owner)
+        signed_up_events_data = EventSerializer([signup.event for signup in signed_up_events], many=True, context={'request': request}).data 
+
+        response_data = serializer.data
+        response_data['signed_up_events'] = signed_up_events_data
+
+        return Response(response_data)
+    
+
 
     def put(self, request, *args, **kwargs):
         profile = self.get_object()
