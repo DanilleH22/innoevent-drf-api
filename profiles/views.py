@@ -29,18 +29,20 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
         profile = self.get_object()
         self.check_object_permissions(request, profile)
         serializer = ProfileSerializer(profile, context={'request': request})
+        return Response(serializer.data)
 
-        signed_up = SignUp.objects.filter(attendee=profile.owner)
+        # signed_up = SignUp.objects.filter(attendee=profile.owner)
 
-        signed_up_data = EventSerializer([signup.event for signup in signed_up],
-            many=True,
-            context={'request': request}
-        ).data
+        # signed_up_data = EventSerializer([signup.event for signup in signed_up],
+        #     many=True,
+        #     context={'request': request}
+        # ).data
 
-        response_data = serializer.data
-        response_data['signed_up'] = signed_up_data
-        logger.info('Response data: %s', response_data)
-        return Response(response_data)
+        # response_data = serializer.data
+        # response_data['signed_up'] = signed_up_data
+        # logger.info('Response data: %s', response_data)
+        # return Response(response_data)
+        
     
 
 
