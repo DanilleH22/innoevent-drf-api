@@ -11,7 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
     
-    def get_signed_up(self, obj):
+    def get_signed_up_events(self, obj):
         from events.serializers import EventSerializer
         signups = SignUp.objects.filter(attendee=obj.owner)
         events = [signup.event for signup in signups]
