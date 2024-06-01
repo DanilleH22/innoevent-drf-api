@@ -5,7 +5,7 @@ from signup.models import SignUp
 class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
-    signed_up = serializers.SerializerMethodField()
+    signed_up_events = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -21,5 +21,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             'id', 'owner', 'biography', 'is_owner',
-            'signed_up'
+            'signed_up_events'
         ]
