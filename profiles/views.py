@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import Profile
 from signup.models import SignUp
 from .serializers import ProfileSerializer
-from signup.serializers import SignUpSerializer
+from events.serializers import EventSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 import logging
@@ -32,13 +32,14 @@ class ProfileDetail(generics.RetrieveUpdateAPIView):
 
         signed_up = SignUp.objects.filter(attendee=profile.owner)
 
-        signed_up_data = SignUpSerializer(signed_up,
+        signed_up_data = EventSerializer([signup.event for signup in signed_up],
             many=True,
             context={'request': request}
         ).data
 
         response_data = serializer.data
         response_data['signed_up'] = signed_up_data
+        logger.info('Response data: %s', response_data)
         return Response(response_data)
     
 
