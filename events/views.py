@@ -23,6 +23,9 @@ class EventList(generics.ListCreateAPIView):
     filter_backends = [filters.SearchFilter]
     search_fields = ['owner__username', 'event_name']
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class EventCreate(generics.ListCreateAPIView):
     """
