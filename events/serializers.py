@@ -7,6 +7,7 @@ from profiles.models import Profile
 class EventSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", input_formats=["%Y-%m-%d %H:%M:%S", "iso-8601"])
 
     def get_is_owner(self, obj):
         request = self.context['request']
