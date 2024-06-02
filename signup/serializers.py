@@ -17,7 +17,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SignUp
-        fields = ['event', 'attendee', 'name', 'email', 'event']
+        fields = ['event', 'attendee', 'name', 'email']
         read_only_fields = ['attendee']  
 
     def create(self, validated_data):
