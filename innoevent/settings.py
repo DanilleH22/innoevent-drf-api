@@ -59,12 +59,13 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEV' in os.environ
+DEBUG = True
+# 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOST'),
-    '8000-danilleh22-innoeventdrf-wzwoau4qruo.ws-eu110.gitpod.io',
-    'localhost'
+    # os.environ.get('ALLOWED_HOST'),
+    '8000-danilleh22-innoeventdrf-47m8884qsew.ws-eu114.gitpod.io'
+    # 'localhost'
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
@@ -118,7 +119,7 @@ AUTHENTICATION_BACKENDS = [
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN', 'https://danilleh22-innovevent-iytf49xaeyl.ws-eu110.gitpod.io/')
+         os.environ.get('CLIENT_ORIGIN', 'https://danilleh22-innovevent-iytf49xaeyl.ws-eu110.gitpod.io/', 'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io/profiles/9')
      ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
@@ -164,6 +165,10 @@ DATABASES = {
         os.environ.get('DATABASE_URL')
     ))
 }
+
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# }
 
 
 # Password validation
