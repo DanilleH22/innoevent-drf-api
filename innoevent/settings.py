@@ -119,7 +119,8 @@ AUTHENTICATION_BACKENDS = [
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN', 'https://danilleh22-innovevent-iytf49xaeyl.ws-eu110.gitpod.io/', 'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io/profiles/9')
+         os.environ.get('CLIENT_ORIGIN', 'https://danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io', 
+         'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io')
      ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
