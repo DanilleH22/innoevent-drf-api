@@ -64,7 +64,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # os.environ.get('ALLOWED_HOST'),
-    '8000-danilleh22-innoeventdrf-47m8884qsew.ws-eu114.gitpod.io'
+    '8000-danilleh22-innoeventdrf-47m8884qsew.ws-eu114.gitpod.io',
+    'innoevent-7b1d2e7d15e7.herokuapp.com'
     # 'localhost'
 ]
 
