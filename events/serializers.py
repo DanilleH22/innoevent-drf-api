@@ -1,21 +1,21 @@
 from rest_framework import serializers
 from events.models import Events
 from profiles.models import Profile
-from profiles.serializers import ProfileSerializer
+# from profiles.serializers import ProfileSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
-    is_owner = serializers.SerializerMethodField()
-    owner_profile = ProfileSerializer(source='owner.profile', read_only=True)
+    # owner_profile = serializers.ReadOnlyField(source='owner.username')
+    # is_owner = serializers.SerializerMethodField()
 
-    def get_is_owner(self, obj):
-        request = self.context['request']
-        return obj.owner == request.user
+    # def get_is_owner(self, obj):
+    #     request = self.context['request']
+    #     return obj.owner == request.user
 
 
     class Meta:
         model = Events
         fields = [
-            'id', 'is_owner', 'event_name', 'date', 
-            'description', 'image', 'owner_profile'
+            'id', 'event_name', 'date', 
+            'description', 'image'
         ]

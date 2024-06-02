@@ -1,22 +1,23 @@
 
 from rest_framework import serializers
 from .models import SignUp
-from profiles.serializers import ProfileSerializer
+# from profiles.serializers import ProfileSerializer
 from django.contrib.auth.models import User
+from events.serializers import EventSerializer
 
-class UserRelatedProfileSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(source='userprofile', read_only=True) 
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'profile']
+# class UserRelatedProfileSerializer(serializers.ModelSerializer):
+#     profile = ProfileSerializer(source='userprofile', read_only=True) 
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'profile']
 
 class SignUpSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(source='userprofile', read_only=True)
+    # profile = ProfileSerializer(source='userprofile', read_only=True)
+    event = EventSerializer(read_only=True)
 
     class Meta:
         model = SignUp
-        fields = ['event', 'attendee', 'name', 'email', 'profile']
+        fields = ['event', 'attendee', 'name', 'email', 'event']
         read_only_fields = ['attendee']  
 
     def create(self, validated_data):
