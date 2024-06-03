@@ -5,11 +5,6 @@ from events.serializers import EventSerializer
 from django.contrib.auth.models import User
 from events.models import Events
 
-# class UserRelatedProfileSerializer(serializers.ModelSerializer):
-#     profile = ProfileSerializer(source='userprofile', read_only=True) 
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'profile']
 
 class SignUpSerializer(serializers.ModelSerializer):
 

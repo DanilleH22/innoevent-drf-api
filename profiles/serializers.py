@@ -2,13 +2,11 @@ from rest_framework import serializers
 from .models import Profile
 from signup.models import SignUp
 from events.models import Events
-# from signup.serializers import SignUpSerializer
 from events.serializers import EventSerializer
 
 class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
-    # sign_ups = SignUpSerializer(source='signed_up_events', read_only=True, many=True)
     signed_up_events = serializers.SerializerMethodField()
     owned_events = serializers.SerializerMethodField()
 

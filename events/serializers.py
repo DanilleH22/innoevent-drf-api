@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from events.models import Events
 from profiles.models import Profile
-# from profiles.serializers import ProfileSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
