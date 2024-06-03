@@ -134,9 +134,7 @@ AUTHENTICATION_BACKENDS = [
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN',
-         'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io',
-         'https://innoevent-react-93e74f3a4351.herokuapp.com/')
+         os.environ.get('CLIENT_ORIGIN')
      ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
