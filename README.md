@@ -33,22 +33,136 @@ I have included links to the [GitHub Issues](https://github.com/DanilleH22/innoe
 ![SQL Database model](/static/database.png)
 
 ## Testing:
+
 ### Validator Testing: 
 All files passed through [PEP8](http://pep8online.com/) without error.
 
+### C.R.U.D. testing
+
+| **TEST**          | **ACTION**             | **EXPECTATION**          | **RESULT** |
+| ----------------- | ---------------------- | ------------------------ | ---------- |
+| Events - Create     | Add new instance to DB | Instance created         | ✅         |
+| Events - Read       | Retrieve all instances | Instances visible in UI  | ✅         |
+| Events - Update     | Modify an instance     | Mods saved & visible     | ✅         |
+| Events - Delete     | Delete an instance     | Instance removed from UI | ✅         |
+| Contact - Create     | Add new instance to DB | Instance created         | ✅         |
+| Profile - Create     | Add new instance to DB | Instance created         | ✅         |
+| Profile - Read       | Retrieve all instances | Instances visible in UI  | ✅         |
+| Profile - Update     | Modify an instance     | Mods saved & visible     | ✅         |
+| Sign-up - Create     | Add new instance to DB | Instance created         | ✅         |
+| Sign-up - Read       | Retrieve all instances | Instances visible in UI  | ✅         |
+
+
 ### Manual Testing:
-1. Manually verified each url path created works & opens without error.
-2. Verified that the CRUD functionality is available in each app via the development version: Events, Profiles, Signup, Contact
+A manual test had been used. I have used a BDD approach as this is a good way to test the results of a users behaviour. It won't return anything but is based of users behaviour.
+
+Test case 1: Contact form works whether signed in or signed out
+Steps to reproduce:
+- Open website without logging in
+- Go to contact us page through url
+- Fill out form
+- Submit form
+- Log in to account
+- Go to contact us page through navigation bar
+- Fill out form
+- Submit form
+Expected results: Form should fill out whether signed in or out 
+Results: As expected the for, had filled out whether the user was signed in or not.
+Pass/Fail : Pass
+Date: 2.06.2024
+Tester’s name: Danille  Hamilton
+
+Test case 2: Only logged in user can create a event, if users are not logged in they are redirected to log in 
+Step to reproduce:
+- Open website
+- Click sign in and log in
+- Go to 'events/create'
+- Create event form and submit 
+- Log out of account 
+- Go to 'events/create'
+- Users should not be able to create a event
+Expected Results: Users are redirected when not logged in 
+Results: As expected users were redirected when not logged in and when logged in it has been complete 
+- Pass/Fail : Pass
+- Date: 2.06.2024
+- Tester’s name: Danille  Hamilton
+
+Test case 3: Only the owner of the event can update or delete the event
+Step to reproduce:
+- Open website
+- Click sign in and log in
+- Go to profile url
+- Change event details and click save changes
+- After submission click edit again
+- Click the delete button
+Expected Results: Users can not even see the button to delete or edit event button unless they are the owner
+Results: As expected users can not even see the button to delete or edit event button unless they are the owner
+- Pass/Fail : Pass
+- Date: 2.06.2024
+- Tester’s name: Danille  Hamilton
+
+Test case 4: Only the profile owner can update their biography, otherwise the button does not show
+Step to reproduce:
+- Open website
+- Click sign in and log in
+- Go to profile url and then type in the update in the biography box
+- Update biography paragraph
+- Click submit 
+Expected Results: Only the profile owner can update their biography, otherwise the button does not show
+Results: Only see the button to edit the biography for the owner
+- Pass/Fail : Pass
+- Date: 2.06.2024
+- Tester’s name: Danille  Hamilton
+
+Test case 5: Users can sign in and must fill out all the fields
+Step to reproduce:
+- Open website
+- Go to sign in url and log in
+- Go to events tab
+- Click on a event which has not been created by the current user 
+- Click sign up
+- Type in name and email
+- Logged out of the account 
+- Type in url links, should be redirected to sign. up 
+Expected Results: Users can sign in and must fill out all the fields
+Results: Sign up has been conmpleted along. with checks it can only be viewed logged in
+- Pass/Fail : Pass
+- Date: 2.06.2024
+- Tester’s name: Danille  Hamilton
+
+Test case 6: Manually verified each url path created works & opens without error.
+Steps to reproduce:
+- Open url paths in browser
+Expected results: Manually verified each url path created works & opens without error.
+Results: Each url opens with error.
+Pass/Fail : Pass
+Date: 2.06.2024
+Tester’s name: Danille  Hamilton
+
+Test case 7: Verified that the CRUD functionality is available in each app via the development version: Events, Profiles, Signup, Contact
+Steps to reproduce:
  - Checked this by going to each link.
  - Creating a new item.
  - Checking new item URL path. 
  - Editing the items details (Not available for Contact or Sign up)
  - Deleting the item (Not available for Contact, Sign up or Profiles)
-3. Ensured search feature for Events apps returns results. Results not filtered for events:
+Expected results: CRUD functionality is available in each app
+Results: CRUD functionality is available in each app
+Pass/Fail : Pass
+Date: 2.06.2024
+Tester’s name: Danille  Hamilton
+
+Test case 8: Ensured search feature for Events apps returns results
+Steps to reproduce:
  - Checked the views file for filtering the event by name
+Expected results: Search will return events searched
+Results: As expected the search will return events searched
+Pass/Fail : Pass
+Date: 2.06.2024
+Tester’s name: Danille  Hamilton
 
 ### Unfixed Bugs
-- None so far.
+-  There are no unfixed bugs left to my knowledge.
 
 ## Technologies Used:
 ### Main Languages Used:
