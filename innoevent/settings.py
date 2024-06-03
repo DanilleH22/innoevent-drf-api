@@ -28,19 +28,32 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
+        'rest_framework.authentication.SessionAuthentication'
+        if 'DEV' in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
     'DATE_INPUT_FORMATS': ["%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "iso-8601"],
 }
-# if 'DEV' not in os.environ:
-#     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-#         'rest_framework.renderers.JSONRenderer',
-#     ]
+if 'DEV' not in os.environ:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+
+if 'DEV' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
 
 
 REST_USE_JWT = True
@@ -60,14 +73,14 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# 'DEV' in os.environ
+DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    # os.environ.get('ALLOWED_HOST'),
+    os.environ.get('ALLOWED_HOST'),
     '8000-danilleh22-innoeventdrf-47m8884qsew.ws-eu114.gitpod.io',
-    'innoevent-7b1d2e7d15e7.herokuapp.com'
-    # 'localhost'
+    'innoevent-7b1d2e7d15e7.herokuapp.com',
+    'https://innoevent-react-93e74f3a4351.herokuapp.com/',
+    'localhost'
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
@@ -122,7 +135,8 @@ AUTHENTICATION_BACKENDS = [
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
          os.environ.get('CLIENT_ORIGIN',
-         'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io')
+         'https://3000-danilleh22-innovevent-l1yngsrhnhk.ws-eu114.gitpod.io',
+         'https://innoevent-react-93e74f3a4351.herokuapp.com/')
      ]
 
 if 'CLIENT_ORIGIN_DEV' in os.environ:
@@ -160,18 +174,6 @@ WSGI_APPLICATION = 'innoevent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': ({
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    } if 'DEV' in os.environ else dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-    ))
-}
-
-# DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-# }
 
 
 # Password validation
